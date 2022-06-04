@@ -126,5 +126,5 @@ public  class UserData {
 
 	public boolean exist(User user) throws IOException {
 		return readUser(user.getNameUser())!=null;
-	}
+	} //exist
 }//end class
