@@ -123,4 +123,8 @@ public  class UserData {
 		}
 		overwriter.close();
 	}//updateUser
+
+	public boolean exist(User user) throws IOException {
+		return readUser(user.getNameUser())!=null;
+	}
 }//end class
