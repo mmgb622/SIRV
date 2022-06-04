@@ -126,8 +126,12 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 				try {
 					if(userBusiness.exist(generated))
 						JOptionPane.showMessageDialog(this, "Username already registered, try a new one");
-					else
+					else{
 						userBusiness.writeUser(generated);
+						this.logIn.reset();
+						this.add(singUp);
+						this.singUp.setVisible(true);
+					}
 				} catch (HeadlessException | IOException e1) {
 					e1.printStackTrace();
 				}
