@@ -44,7 +44,7 @@ public  class UserData {
 		String line = reader.readLine();
 		while(line != null) {
 			String[] data = line.split(";");
-			if(data[1]==nameUser) //founded user
+			if(data[1].equals(nameUser)) //founded user
 				if(data.length>3)
 					return new Client(data[0], data[1], data[2], //name - userName password
 							Integer.parseInt(data[3]), //client calification
