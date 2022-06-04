@@ -18,8 +18,13 @@ public  class UserData {
 	
     private File usersRecord; 
 	 
-	public UserData() {
+	public UserData() throws IOException {
 		this.usersRecord = new File("users.txt");
+		if(!usersRecord.exists()) {
+			BufferedWriter bw = new BufferedWriter(new FileWriter(usersRecord));
+			bw.write("");
+			bw.close();
+		}
 	}
 	
 	public void writeUser(User user) throws IOException {
@@ -47,7 +52,7 @@ public  class UserData {
 			if(data[1].equals(nameUser)) //founded user
 				if(data.length>3)
 					return new Client(data[0], data[1], data[2], //name - userName password
-							Integer.parseInt(data[3]), //client calification
+							Double.parseDouble(data[3]), //client calification
 							data[4], //nationality
 							data[5], //gender
 							Integer.parseInt(data[6]), //age
@@ -123,8 +128,8 @@ public  class UserData {
 		}
 		overwriter.close();
 	}//updateUser
-
+	
 	public boolean exist(User user) throws IOException {
 		return readUser(user.getNameUser())!=null;
-	} //exist
+	} 
 }//end class

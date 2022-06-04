@@ -12,8 +12,10 @@ import javax.swing.JOptionPane;
 
 import Business.UserBusiness;
 import Domain.Admin;
+import Domain.Client;
 import Domain.User;
 import GUI.administrator.JPAdministratorPanel;
+import GUI.client.JPClientPanel;
 
 public class MainFrame extends JFrame implements ActionListener,MouseListener{
 
@@ -24,6 +26,7 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 	private JPSingUp singUp;
 	private JPLogIn logIn;
 	private JPAdministratorPanel adminPanel;
+	private JPClientPanel clientPanel;
 	
 	public MainFrame() {
 		
@@ -49,7 +52,12 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 		this.logIn.getJb_cancel().addActionListener(this);
 		this.logIn.getJb_logIn().addActionListener(this);
 		
-		this.userBusiness = new UserBusiness();
+		try {
+			this.userBusiness = new UserBusiness();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -150,7 +158,14 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 								this.pack();
 								this.repaint();
 							}else {
-								
+								Client client = (Client) temp;
+								this.remove(singUp);
+								this.singUp.reset();
+								this.clientPanel = new JPClientPanel(client);
+								this.clientPanel.setVisible(true);
+								this.add(clientPanel);
+								this.pack();
+								this.repaint();
 							}
 						}
 					}

@@ -1,10 +1,13 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -21,7 +24,7 @@ public class JPLogIn extends JPanel implements ActionListener{
 	private JLabel showPassword;
 	private JCheckBox administrator;
 	private JButton jb_logIn, jb_cancel;
-	private JComboBox<String> gender;
+	private JComboBox gender;
 	private JTextField jtfUsername, jtf_name,jtf_age,jtf_ID,jtf_Nationality; 
 	private JPasswordField jpf_Password, jpf_ConfirmPass;
 	
@@ -117,7 +120,7 @@ public class JPLogIn extends JPanel implements ActionListener{
 		Style.text(jl_Gender);
 		this.add(this.jl_Gender);
 		
-		this.gender = new JComboBox<>();
+		this.gender = new JComboBox();
 		this.gender.addItem("Male");
 		this.gender.addItem("Female");
 		this.gender.setBounds(750, 450, 100, 30);
@@ -312,7 +315,7 @@ public class JPLogIn extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(this.administrator)) { //hides or shows all the info relative to clients
+		if(e.getSource().equals(this.administrator)) {
 			if(administratorUser()) {
 				this.jl_Age.setForeground(Style.colors[5]);
 				this.jtf_age.setBackground(Style.colors[5]);

@@ -11,7 +11,7 @@ public class UserBusiness {
 
 	UserData userData;
 	
-	public UserBusiness() {
+	public UserBusiness() throws IOException {
 		this.userData = new UserData();
 	}
 	
