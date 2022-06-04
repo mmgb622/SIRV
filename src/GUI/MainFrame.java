@@ -17,8 +17,13 @@ import GUI.administrator.JPAdministratorPanel;
 
 public class MainFrame extends JFrame implements ActionListener,MouseListener{
 
-	JPSingUp singUp;
-	JPLogIn logIn;
+	//data management
+	private UserBusiness userBusiness;
+	
+	//panels
+	private JPSingUp singUp;
+	private JPLogIn logIn;
+	private JPAdministratorPanel adminPanel;
 	
 	public MainFrame() {
 		
@@ -36,6 +41,7 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 		this.singUp = new JPSingUp();
 		this.singUp.getShowPassword().addMouseListener(this);
 		this.singUp.getRegisterQuestion().addMouseListener(this);
+		this.singUp.getSingUp().addActionListener(this);
 		this.add(singUp);
 		
 		this.logIn = new JPLogIn();
@@ -43,16 +49,18 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 		this.logIn.getJb_cancel().addActionListener(this);
 		this.logIn.getJb_logIn().addActionListener(this);
 		
+		this.userBusiness = new UserBusiness();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
-		if(e.getSource().equals(this.singUp.getRegisterQuestion())) {
+		if(e.getSource().equals(this.singUp.getRegisterQuestion())) { //register a new user
 			this.singUp.reset();
+			this.remove(singUp);
 			this.add(logIn);
 			this.logIn.setVisible(true);
-		} else if(e.getSource().equals(this.singUp.getShowPassword())) {
+		} else if(e.getSource().equals(this.singUp.getShowPassword())) { //show password in sing up panel
 			if(this.singUp.getJpfPassword().getEchoChar()!=((char)0)) {
 				this.singUp.getJpfPassword().setEchoChar((char)0);
 				this.singUp.getShowPassword().setText("Hide Password");
@@ -152,7 +160,7 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 			}//validation of completed fields	
 		}//else if events
 		
-	}
+	}//actionPerformed
 	
 	
-}
+}//class end
