@@ -1,11 +1,20 @@
 package GUI;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import Business.UserBusiness;
+import Domain.Admin;
+import Domain.User;
+import GUI.administrator.JPAdministratorPanel;
+
 
 public class MainFrame extends JFrame implements ActionListener,MouseListener{
 
