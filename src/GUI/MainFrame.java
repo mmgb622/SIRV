@@ -94,8 +94,55 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(this.logIn.getJb_cancel())) {
 			this.logIn.reset();
+			this.add(singUp);
 			this.singUp.setVisible(true);
-		}
+		}else if(e.getSource().equals(this.logIn.getJb_logIn())) {
+			if(this.logIn.validateFields()) {
+				User generated = this.logIn.generateUser();
+				try {
+					if(userBusiness.exist(generated))
+						JOptionPane.showMessageDialog(this, "Username already registered, try a new one");
+					else
+						userBusiness.writeUser(generated);
+				} catch (HeadlessException | IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+		}else if(e.getSource().equals(this.singUp.getSingUp())) {
+			if(this.singUp.validateFields()) {
+				try {
+					User temp = this.userBusiness.readUser(this.singUp.getJtfUsername().getText());
+					if(temp==null)
+						JOptionPane.showMessageDialog(this, "This user name is not registered");
+					else {
+						char[] password = this.singUp.getJpfPassword().getPassword();
+						String pass = "";
+						for (int i = 0; i < password.length; i++)
+							pass+=password[i];
+						
+						if(!temp.getPassword().equals(pass))
+							JOptionPane.showMessageDialog(this, "Incorrect password");
+						else {
+							if(temp.isAdministrator()) {
+								Admin admin = (Admin) temp;
+								this.remove(singUp);
+								this.singUp.reset();
+								this.adminPanel = new JPAdministratorPanel(admin);
+								this.adminPanel.setVisible(true);
+								this.add(adminPanel);
+								this.pack();
+								this.repaint();
+							}else {
+								
+							}
+						}
+					}
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(this, e1);
+				}//try catch
+			}//validation of completed fields	
+		}//else if events
 		
 	}
 	
