@@ -14,6 +14,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import Domain.Admin;
+import Domain.Client;
+import Domain.User;
+
 public class JPLogIn extends JPanel implements ActionListener{
 
 	private JLabel title,jl_Username, jl_Password, jl_ConfirmPass,jl_Name,jl_Age,jl_Gender,jl_ID,jl_Nationality;
@@ -156,6 +160,87 @@ public class JPLogIn extends JPanel implements ActionListener{
 		this.add(jb_cancel);
 	}//init
 
+	public boolean validateFields() {
+		boolean completed = true;
+		String err = "Invalid information: ";
+		if(this.jtf_name.getText().isBlank()) {
+			completed = false;
+			err+="\n >> Name is blank";
+		} 
+		if(this.jtfUsername.getText().isBlank()) {
+			completed = false;
+			err+="\n >> User name is blank";
+		}
+		char[] pass = this.jpf_Password.getPassword();
+		char[] confirmPass = this.jpf_ConfirmPass.getPassword();
+		if(pass.length==0) {
+			completed = false;
+			err+="\n >> Password is empty";
+		}
+		if(confirmPass.length==0) {
+			completed = false;
+			err+="\n >> Confirmation of password is empty";
+		}
+		if(pass.length>0 && confirmPass.length>0) {
+			if(pass.length!=confirmPass.length) {
+				completed = false;
+				err+="\n >> Password confirmation is not equal";
+			}else {
+				for (int i = 0; i < confirmPass.length; i++) {
+					if (pass[i]!=confirmPass[i]) {
+						completed = false;
+						err+="\n >> Password confirmation is not equal";
+					}
+				}
+			}
+			
+		}
+		
+		if(!administratorUser()) {
+			if(this.jtf_age.getText().isBlank()) {
+				completed = false;
+				err+="\n >> Age is blank";
+			}
+			if(this.jtf_ID.getText().isBlank()) {
+				completed = false;
+				err+="\n >> ID is blank";
+			}
+			if(this.jtf_Nationality.getText().isBlank()) {
+				completed = false;
+				err+="\n >> Nationality is blank";
+			}
+		}
+		
+		if(!completed)
+			JOptionPane.showMessageDialog(this, err);
+		return completed;
+	}
+	
+	public User generateUser() {
+		if(administratorUser()) {
+			String password = "";
+			char[] pass = this.jpf_Password.getPassword();
+			for (int i = 0; i < pass.length; i++) {
+				password +=  pass[i];
+			}
+			return new Admin(this.jtf_name.getText(),
+					this.jtfUsername.getText(),password);
+		}else {
+			String password = "";
+			char[] pass = this.jpf_Password.getPassword();
+			for (int i = 0; i < pass.length; i++) {
+				password +=  pass[i];
+			}
+			return new Client(this.jtf_name.getText(),
+					this.jtfUsername.getText(),
+					password,
+					5,
+					this.jtf_Nationality.getText(),
+					(String)this.gender.getSelectedItem(),
+					Integer.parseInt(this.jtf_age.getText()),
+					this.jtf_ID.getText());
+		}
+	}
 	
 	public void paintComponent(Graphics g) {
 		g.setColor(Style.colors[0]);

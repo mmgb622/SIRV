@@ -20,7 +20,9 @@ public class Style {
 	}
 	
 	public static void setSubtitle(JLabel label) {
-		
+		label.setFont(new Font("Microsoft New Tai Lue", Font.BOLD, 26));
+		label.setForeground(colors[6]);
+		label.setHorizontalAlignment(JLabel.CENTER);
 	}
 	
 	public static void text(JLabel label) {

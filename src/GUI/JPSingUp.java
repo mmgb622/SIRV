@@ -13,6 +13,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -30,7 +31,6 @@ public class JPSingUp extends JPanel {
 	public JPSingUp() {
 		this.setPreferredSize(new Dimension(900, 750));
 		this.setLayout(null);
-		this.setBackground(Style.colors[0]);
 		init();
 	}
 	
@@ -83,7 +83,22 @@ public class JPSingUp extends JPanel {
 		this.add(this.registerQuestion);
 	}
 
-	
+	public boolean validateFields() {
+		boolean completed = true;
+		String err = "Invalid information:";
+		if(this.jtfUsername.getText().isBlank()) {
+			completed=false;
+			err+="\n >> Username is blank";
+		}
+		if(this.jpfPassword.getPassword().length==0) {
+			completed=false;
+			err+="\n >> Password is empty";
+		}
+		
+		if(!completed)
+			JOptionPane.showMessageDialog(this, err);
+		return completed;
+	}
 	public void paintComponent(Graphics g) {
 		g.setColor(Style.colors[0]);
 		g.fillRect(0, 0, 900, 750);
