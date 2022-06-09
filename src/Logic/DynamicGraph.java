@@ -1,5 +1,7 @@
 package Logic;
 
+import java.awt.Graphics;
+
 import Logic.logicList.DoubleLinkedList;
 
 public class DynamicGraph implements Graph{
@@ -10,6 +12,12 @@ public class DynamicGraph implements Graph{
 		this.vertex = new DoubleLinkedList();
 	}
 
+	public void paint(Graphics g) {
+		for (int i = 1; i < vertex.getSize(); i++) {
+			Vertex v = (Vertex)vertex.get(i);
+			v.paint(g);
+		}
+	}
 	
 	public String DFS() {
 		Vertex origin = (Vertex) this.vertex.get(1);

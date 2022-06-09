@@ -20,6 +20,8 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 	private BufferedImage img;
 	private JLabel adminName, manageTaxiDrivers, manageMap, manageRideTypes, seeUsers;
 	
+	private JPViewClients jpClients;
+	
 	public JPAdministratorPanel(Admin user) {
 		this.setPreferredSize(new Dimension(900, 750));
 		this.setLayout(null);
@@ -78,12 +80,19 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 		g.setColor(Style.colors[2]);
 		g.fillRect(0, 150, 900, 40);
 		g.drawImage(img, 0, 0, 360,150, null);
+		
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(e.getSource().equals(this.seeUsers)) {
+			System.out.println("Clientes presionado");
+			this.jpClients = new JPViewClients();
+			this.jpClients.setLocation(0, 200);
+			this.jpClients.setVisible(true);
+			this.add(jpClients);
+			repaint();
+		}
 	}
 
 	@Override
