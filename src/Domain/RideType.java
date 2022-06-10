@@ -16,10 +16,10 @@ public String getName() {
 public void setName(String name) {
 	this.name = name;
 }
-public int getdistanceCost() {
+public int getDistanceCost() {
 	return distanceCost;
 }
-public void setdistanceCost(int distanceCost) {
+public void setDistanceCost(int distanceCost) {
 	distanceCost = distanceCost;
 }
 
