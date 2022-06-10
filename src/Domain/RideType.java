@@ -2,12 +2,13 @@ package Domain;
 
 public class RideType {
 	
-String name;
-int CostoPorDistancia;
-public RideType(String name, int costoPorDistancia) {
+private String name;
+private int distanceCost;
+	
+public RideType(String name, int distanceCost) {
 	super();
 	this.name = name;
-	CostoPorDistancia = costoPorDistancia;
+	distanceCost = distanceCost;
 }
 public String getName() {
 	return name;
@@ -15,11 +16,11 @@ public String getName() {
 public void setName(String name) {
 	this.name = name;
 }
-public int getCostoPorDistancia() {
-	return CostoPorDistancia;
+public int getdistanceCost() {
+	return distanceCost;
 }
-public void setCostoPorDistancia(int costoPorDistancia) {
-	CostoPorDistancia = costoPorDistancia;
+public void setdistanceCost(int distanceCost) {
+	distanceCost = distanceCost;
 }
 
 
