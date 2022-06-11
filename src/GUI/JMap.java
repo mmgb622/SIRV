@@ -94,7 +94,7 @@ public class JMap extends JPanel implements MouseListener,MouseMotionListener{
 				if(verified.area.contains(e.getPoint())) {
 					movingVertex = true;
 					this.selectedVertex = verified;
-					System.out.println("Vértice seleccionado: "+selectedVertex.element);
+					System.out.println("VÃ©rtice seleccionado: "+selectedVertex.element);
 					break;
 				}
 			}//for verifies which vertex is selected
@@ -108,7 +108,7 @@ public class JMap extends JPanel implements MouseListener,MouseMotionListener{
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		movingVertex = false;
-		if(e.getButton() == MouseEvent.BUTTON3) {
+		if(e.getButton() == MouseEvent.BUTTON3 && editable) {
 			resetMenu();
 			if(this.selectedVertex!=null) {
 				this.optionMenu.remove(addVertex);
