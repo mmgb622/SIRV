@@ -21,6 +21,7 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 	private JLabel adminName, manageTaxiDrivers, manageMap, manageRideTypes, seeUsers;
 	
 	private JPViewClients jpClients;
+	private JPManageMap jpMap;
 	
 	public JPAdministratorPanel(Admin user) {
 		this.setPreferredSize(new Dimension(900, 750));
@@ -83,14 +84,30 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 		
 	}
 	
+	private void reset() {
+		if(this.jpClients!= null)
+			this.remove(jpClients);
+		if(this.jpMap != null)
+			this.remove(jpMap);
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource().equals(this.seeUsers)) {
+			this.reset();
 			System.out.println("Clientes presionado");
 			this.jpClients = new JPViewClients();
 			this.jpClients.setLocation(0, 200);
 			this.jpClients.setVisible(true);
 			this.add(jpClients);
+			repaint();
+		}else if(e.getSource().equals(this.manageMap)) {
+			this.reset();
+			System.out.println("Mapa presionado");
+			this.jpMap = new JPManageMap();
+			this.jpMap.setLocation(0, 200);
+			this.jpMap.setVisible(true);
+			this.add(jpMap);
 			repaint();
 		}
 	}

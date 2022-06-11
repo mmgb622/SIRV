@@ -43,7 +43,7 @@ public class Vertex {
 	
 	public void paint(Graphics g) {
 		g.fillOval(x-radio, y-radio, 2*radio, 2*radio);
-		for (int i = 1; i < asociatedVertex.getSize(); i++) {
+		for (int i = 1; i <= asociatedVertex.getSize(); i++) {
 			paintEdge(g, (Vertex) asociatedVertex.get(i));
 		}
 	}
