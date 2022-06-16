@@ -95,7 +95,7 @@ public  class UserData {
 			String[] data = line.split(";");
 			if(data.length>3)
 					clients.add(new Client(data[0], data[1], data[2], //name - userName password
-							Integer.parseInt(data[3]), //client calification
+							Double.parseDouble(data[3]), //client calification
 							data[4], //nationality
 							data[5], //gender
 							Integer.parseInt(data[6]), //age

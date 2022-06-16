@@ -1,7 +1,6 @@
 package Logic.logicList;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class DoubleLinkedList implements Lista{
 
@@ -66,8 +65,12 @@ public class DoubleLinkedList implements Lista{
 		Node deleted = getNodeIn(pos);
 		Node before = deleted.before;
 		Node next = deleted.next;
-		before.next = next;
-		next.before = before;
+		if(before == null)
+			this.start = next;
+		else
+			before.next = next;
+		if(next != null)
+			next.before = before;
 		return true;
 	}
 
@@ -120,6 +123,20 @@ public class DoubleLinkedList implements Lista{
 			counter++;
 		}
 		return null;
+	}
+	
+	public void set(int position, Object element) {
+		
+		int counter = 1;
+		Node aux = this.start;
+		while(aux!=null) {
+			if(counter==position) {
+				aux.element = element;
+				break;
+			}
+			aux = aux.next;
+			counter++;
+		}
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package Logic;
 
+import java.awt.Graphics;
+
 import Logic.logicList.DoubleLinkedList;
 
 public class DynamicGraph implements Graph{
@@ -10,6 +12,12 @@ public class DynamicGraph implements Graph{
 		this.vertex = new DoubleLinkedList();
 	}
 
+	public void paint(Graphics g) {
+		for (int i = 1; i <= vertex.getSize(); i++) {
+			Vertex v = (Vertex)vertex.get(i);
+			v.paint(g);
+		}
+	}
 	
 	public String DFS() {
 		Vertex origin = (Vertex) this.vertex.get(1);
@@ -86,7 +94,17 @@ public class DynamicGraph implements Graph{
 			throw new GraphException("This vertex already exists");
 		this.vertex.addEnd(new Vertex(element));
 	}
-
+	
+	public boolean deleteVertex(Vertex v) throws GraphException {
+		for (int i = 1; i <= vertex.getSize(); i++) {
+			Vertex aux = (Vertex) this.vertex.get(i);
+			if(!aux.equals(v)) {
+				deleteEdge(aux, v);
+			}
+		}
+		return this.vertex.delete(v);
+	}
+	
 	@Override
 	public void addEdge(Object nodeStart, Object nodeEnd) throws GraphException {
 		if(existEdge(nodeStart, nodeEnd))
@@ -120,6 +138,18 @@ public class DynamicGraph implements Graph{
 		}
 	}
 
+	public boolean deleteEdge(Vertex start, Vertex end) {
+		for( int i=1; i<= start.asociatedVertex.getSize(); i ++) {
+			Vertex asociated = (Vertex) start.asociatedVertex.get(i);
+			if(asociated==end) {
+				start.asociatedVertex.delete(i);
+				start.weights.delete(i);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public String toString() {
 		String info = "Graph information:\n";
 		for (int i = 1; i <= vertex.getSize(); i++) {
@@ -128,4 +158,12 @@ public class DynamicGraph implements Graph{
 		
 		return info;
 	}
+
+	public Vertex get(int position) throws GraphException {
+		if(position<1 || position>size())
+			throw new GraphException("Vertex index out of bounds");
+		return (Vertex) this.vertex.get(position);
+	}
+	
+	
 }//class end
