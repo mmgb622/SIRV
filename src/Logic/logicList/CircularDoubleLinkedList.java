@@ -1,6 +1,8 @@
-package Logic;
+package Logic.logicList;
 
-public class CircularDoubleLinkedList implements List{
+import java.util.ArrayList;
+
+public class CircularDoubleLinkedList implements Lista{
 
 	//atributes
 	private Node start;
@@ -45,7 +47,6 @@ public class CircularDoubleLinkedList implements List{
 		this.end.next = this.start;
 	}//addEnd
 
-	@Override
 	public void addSort(int number) {
 		Node newInt = new Node(number);
 		if(isEmpty()) {
@@ -65,7 +66,7 @@ public class CircularDoubleLinkedList implements List{
 		} else {
 			int start = 1, end = this.getSize();
 			int temp = (end-start)/2 + start;
-			Node aux = getByPos(temp);
+			Node aux = getNodeIn(temp);
 			while(!((int)aux.element<=number && (int)aux.next.element>number)) {
 				if((int)aux.element<number) {
 					start = temp;
@@ -74,7 +75,7 @@ public class CircularDoubleLinkedList implements List{
 					end = temp;
 					temp = (end-start)/2 + start;
 				}//if else
-				aux = getByPos(temp);
+				aux = getNodeIn(temp);
 			}//while
 			Node ant = aux;
 			Node sgt = ant.next;
@@ -119,8 +120,8 @@ public class CircularDoubleLinkedList implements List{
 	public boolean delete(int pos) {
 		if(isEmpty() || pos<1 || pos>getSize())
 			return false;
-		Node before = getByPos(pos).before;
-		Node next = getByPos(pos).next;
+		Node before = getNodeIn(pos).before;
+		Node next = getNodeIn(pos).next;
 		before.next = next;
 		next.before = before;
 		return true;
@@ -163,38 +164,6 @@ public class CircularDoubleLinkedList implements List{
 		}//if
 		return false;
 	}//exists
-
-	@Override
-	public Node getByPos(int pos) {
-		if(!isEmpty()) {
-			int count = 1;
-			Node aux = this.start;
-			do {
-				if(count==pos) {
-					return aux;
-				}else {
-					aux = aux.next;
-					count++;
-				}//if else
-			}while(aux!=start);
-			return null;
-		}//if 
-		return null;
-	}//getByPos
-
-	@Override
-	public Object getByValue(Object element) {
-			if(!isEmpty()) {
-				Node aux=this.start;
-				do {
-					if(aux.element.equals(element))
-						return "found";
-					aux = aux.next;
-				}while(aux!=null);
-				return "no found";
-			}
-				return null;
-		}//getByValue
 	
 	@Override
 	public Node firstInList() {
@@ -209,10 +178,61 @@ public class CircularDoubleLinkedList implements List{
 	public String toString() {
 		String info = "";
 		for(int i = 1; i<=getSize();i++) {
-			Node node = getByPos(i);
+			Node node = getNodeIn(i);
 			info+=node.element.toString()+" ";
 		}//for
 		return info;
 	}//toString
+
+	@Override
+	public Object get(int position) {
+		if(!isEmpty()) {
+			int count = 1;
+			Node aux = this.start;
+			do {
+				if(count==position) {
+					return aux.element;
+				}else {
+					aux = aux.next;
+					count++;
+				}//if else
+			}while(aux!=start);
+			return null;
+		}//if 
+		return null;
+	}
+
+	@Override
+	public Node getNodeIn(int pos) {
+		if(!isEmpty()) {
+			int count = 1;
+			Node aux = this.start;
+			do {
+				if(count==pos) {
+					return aux;
+				}else {
+					aux = aux.next;
+					count++;
+				}//if else
+			}while(aux!=start);
+			return null;
+		}//if 
+		return null;
+	}
+
+	@Override
+	public ArrayList<Node> getByValue(Object element) {
+		if(!isEmpty()) {
+			ArrayList<Node> nodes = new ArrayList<>();
+			Node aux=this.start;
+			do {
+				if(aux.element.equals(element))
+					nodes.add(aux);
+				aux = aux.next;
+			}while(aux!=null);
+			return nodes;
+		}
+		return null;
+	}
 
 }//class
