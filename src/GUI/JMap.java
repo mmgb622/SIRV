@@ -94,7 +94,6 @@ public class JMap extends JPanel implements MouseListener,MouseMotionListener{
 				if(verified.area.contains(e.getPoint())) {
 					movingVertex = true;
 					this.selectedVertex = verified;
-					System.out.println("Vértice seleccionado: "+selectedVertex.element);
 					break;
 				}
 			}//for verifies which vertex is selected
