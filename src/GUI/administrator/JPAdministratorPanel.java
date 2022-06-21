@@ -13,15 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Domain.Admin;
+import GUI.JUserMenu;
 import GUI.Style;
 
 public class JPAdministratorPanel extends JPanel implements MouseListener{
 
 	private BufferedImage img;
 	private JLabel adminName, manageTaxiDrivers, manageMap, manageRideTypes, seeUsers;
+	private JUserMenu menu;
 	
 	private JPViewClients jpClients;
-	private JPManageTaxiDrivers jpManageTaxiDrivers;
 	private JPManageMap jpMap;
 	
 	public JPAdministratorPanel(Admin user) {
@@ -37,11 +38,15 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.menu = new JUserMenu(user, 700, 0);
+		this.menu.setVisible(false);
+		this.add(menu);
 		
 		this.adminName = new JLabel(user.getName());
 		this.adminName.setBounds(550, 0, 300, 150);
 		Style.setSubtitle(adminName);
 		this.adminName.setHorizontalAlignment(JLabel.RIGHT);
+		this.adminName.addMouseListener(this);
 		this.add(adminName);
 		
 		this.manageTaxiDrivers = new JLabel("Taxi Drivers");
@@ -96,7 +101,7 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		if(e.getSource().equals(this.seeUsers)) {
 			this.reset();
-			System.out.println("Press client");
+			System.out.println("Clientes presionado");
 			this.jpClients = new JPViewClients();
 			this.jpClients.setLocation(0, 200);
 			this.jpClients.setVisible(true);
@@ -104,33 +109,26 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			repaint();
 		}else if(e.getSource().equals(this.manageMap)) {
 			this.reset();
-			System.out.println("Press map");
+			System.out.println("Mapa presionado");
 			this.jpMap = new JPManageMap();
 			this.jpMap.setLocation(0, 200);
 			this.jpMap.setVisible(true);
 			this.add(jpMap);
-			repaint();
-		}else if(e.getSource().equals(this.manageTaxiDrivers)) {
-			this.reset();
-			System.out.println("Press taxi drivers");
-			this.jpManageTaxiDrivers = new JPManageTaxiDrivers();
-			this.jpManageTaxiDrivers.setLocation(0, 200);
-			this.jpManageTaxiDrivers.setVisible(true);
-			this.add(jpManageTaxiDrivers);
 			repaint();
 		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		if(e.getSource().equals(this.adminName)) {
+			this.adminName.setVisible(false);
+			this.menu.setVisible(true);
+		}
 	}
 
 	@Override
@@ -163,4 +161,22 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			Style.text(seeUsers);
 		}
 	}
+
+	public JUserMenu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(JUserMenu menu) {
+		this.menu = menu;
+	}
+
+	public JLabel getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(JLabel adminName) {
+		this.adminName = adminName;
+	}
+
+	
 }

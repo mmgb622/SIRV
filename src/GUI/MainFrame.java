@@ -1,5 +1,6 @@
 package GUI;
 
+import java.awt.Graphics;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,25 +93,21 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -152,12 +149,14 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 						if(!temp.getPassword().equals(pass))
 							JOptionPane.showMessageDialog(this, "Incorrect password");
 						else {
+							
 							if(temp.isAdministrator()) {
 								Admin admin = (Admin) temp;
 								this.remove(singUp);
 								this.singUp.reset();
 								this.adminPanel = new JPAdministratorPanel(admin);
 								this.adminPanel.setVisible(true);
+								this.adminPanel.getMenu().addActionListener(this);
 								this.add(adminPanel);
 								this.pack();
 								this.repaint();
@@ -167,6 +166,7 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 								this.singUp.reset();
 								this.clientPanel = new JPClientPanel(client);
 								this.clientPanel.setVisible(true);
+								this.clientPanel.getMenu().addActionListener(this);
 								this.add(clientPanel);
 								this.pack();
 								this.repaint();
@@ -177,9 +177,35 @@ public class MainFrame extends JFrame implements ActionListener,MouseListener{
 					JOptionPane.showMessageDialog(this, e1);
 				}//try catch
 			}//validation of completed fields	
-		}//else if events
+		} //else if events
 		
+		if(this.adminPanel != null)
+			if(e.getSource().equals(this.adminPanel.getMenu().getJbLogOut())) {
+				this.remove(adminPanel);
+				this.adminPanel = null;
+				this.singUp.reset();
+				this.add(this.singUp);
+				this.singUp.setVisible(true);
+				repaint();
+			} else if(e.getSource().equals(this.adminPanel.getMenu().getJbClose())) {
+				this.adminPanel.getMenu().setVisible(false);
+				this.adminPanel.getAdminName().setVisible(true);;
+			}
+		
+		if(this.clientPanel != null)
+			if(e.getSource().equals(this.clientPanel.getMenu().getJbLogOut())) {
+				this.remove(clientPanel);
+				this.clientPanel = null;
+				this.singUp.reset();
+				this.add(this.singUp);
+				this.singUp.setVisible(true);
+				repaint();
+			} else if(e.getSource().equals(this.clientPanel.getMenu().getJbClose())) {
+				this.clientPanel.getMenu().setVisible(false);
+				this.clientPanel.getClientName().setVisible(true);;
+			}
 	}//actionPerformed
+
 	
 	
 }//class end
