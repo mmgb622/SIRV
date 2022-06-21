@@ -128,11 +128,59 @@ public class JPManageTaxiDrivers extends JPanel implements ActionListener{
 			this.add(btnUpdate);
 			
 			repaint();
-		}
+		}//if btnEdit was clicked
+		
+				if(e.getSource().equals(this.btnAddNew)) {
+			
+			JLabel jlabelTaxiDriverName = new JLabel("Name");
+			jlabelTaxiDriverName.setBounds(100,120,200,40);
+			Style.setSubtitle(jlabelTaxiDriverName);
+			this.add(jlabelTaxiDriverName);
+			
+			jtfTaxiDriverName.setBounds(100, 120, 500, 40);
+			Style.setTextField(jtfTaxiDriverName);
+			this.add(jtfTaxiDriverName);
+
+			JLabel jlabelTaxiDriverCalification = new JLabel("Calification");
+			jlabelTaxiDriverCalification.setBounds(100,180,200,40);
+			Style.setSubtitle(jlabelTaxiDriverCalification);
+			this.add(jlabelTaxiDriverCalification);
+			
+			jtfTaxiDriverCalification.setBounds(110, 180, 500, 40);
+			Style.setTextField(jtfTaxiDriverCalification);
+			this.add(jtfTaxiDriverCalification);
+			
+			JLabel jlabelTaxiDriverCar = new JLabel("Car:");
+			jlabelTaxiDriverCar.setBounds(110, 240, 200, 40);
+			Style.text(jlabelTaxiDriverCar);
+			this.add(jlabelTaxiDriverCar);
+
+			jtfTaxiDriverCar.setBounds(110, 240, 500, 40);
+			Style.setTextField(jtfTaxiDriverCar);
+			this.add(jtfTaxiDriverCar);
+
+			JLabel jlabelTaxiDriverPaymentType = new JLabel("Payment Type");
+			jlabelTaxiDriverPaymentType.setBounds(110, 300, 200, 40);
+			Style.text(jlabelTaxiDriverPaymentType);
+			this.add(jlabelTaxiDriverPaymentType);
+
+			jtfTaxiDriverPaymentType.setBounds(110, 300, 500, 40);
+			Style.setTextField(jtfTaxiDriverPaymentType);
+			this.add(jtfTaxiDriverPaymentType);
+			
+			this.btnSave = new JButton("Save");
+			this.btnSave.setBounds(110, 360, 200, 40);
+			Style.setButton(btnSave);
+			this.btnSave.addActionListener(this);
+			this.add(btnSave);
+			
+			repaint();
+		}//if btnAddNew was clicked
+		
 		if(e.getSource().equals(this.btnDelete)) {
 		
 			repaint();
-		}
+		}//if btnDelete was clicked
 			
 	}//actionPerformed
 }//class end
