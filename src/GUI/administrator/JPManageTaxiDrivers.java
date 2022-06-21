@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import Business.UserBusiness;
 import Domain.TaxiDriver;
 import GUI.Style;
@@ -19,7 +21,8 @@ public class JPManageTaxiDrivers extends JPanel implements ActionListener{
 
 	private JComboBox<String> taxiDriverList;
 	private ArrayList<TaxiDriver> taxiDriver;
-	private JButton viewMore;
+	private JButton btnEdit, btnDelete, btnUpdate, btnAddNew;
+	private JTextField jtfTaxiDriverName, jtfTaxiDriverCalification, jtfTaxiDriverCar, jtfTaxiDriverPaymentType;
 	
 	public JPManageTaxiDrivers() {
 		this.setLayout(null);
@@ -29,12 +32,12 @@ public class JPManageTaxiDrivers extends JPanel implements ActionListener{
 	}
 	
 	private void init() {
-		try {
-			UserBusiness usb = new UserBusiness();
-			this.taxiDriver = usb.readTaxiDriver();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			UserBusiness usb = new UserBusiness();
+//			this.taxiDriver = usb.readTaxiDriver();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 		
 		JLabel title = new JLabel("Taxi Driver");
 		title.setBounds(30, 30, 200, 40);
@@ -47,16 +50,22 @@ public class JPManageTaxiDrivers extends JPanel implements ActionListener{
 		this.taxiDriverList.setFont(new Font("Microsoft New Tai Lue", Font.PLAIN, 14));
 		this.taxiDriverList.setFocusable(false);
 		
-		for (int i = 0; i < taxiDriver.size(); i++) {
-			this.taxiDriverList.addItem(taxiDriver.get(i).getNameUser());
-		}
+//		for (int i = 0; i < taxiDriver.size(); i++) {
+//			this.taxiDriverList.addItem(taxiDriver.get(i).getTaxiDriverName());
+//		}
 		this.add(taxiDriverList);
 		
-		this.viewMore = new JButton("View more info");
-		this.viewMore.setBounds(600, 60, 230, 50);
-		Style.setButton(viewMore);
-		this.viewMore.addActionListener(this);
-		this.add(viewMore);
+		this.btnEdit = new JButton("Edit info");
+		this.btnEdit.setBounds(600, 60, 230, 50);
+		Style.setButton(btnEdit);
+		this.btnEdit.addActionListener(this);
+		this.add(btnEdit);
+		
+		this.btnDelete = new JButton("Delete Taxi Driver");
+		this.btnDelete.setBounds(600, 120, 230, 50);
+		Style.setButton(btnDelete);
+		this.btnDelete.addActionListener(this);
+		this.add(btnDelete);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -69,44 +78,61 @@ public class JPManageTaxiDrivers extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource().equals(this.viewMore)) {
+		if(e.getSource().equals(this.btnEdit)) {
 			TaxiDriver taxiDriver = this.taxiDriver.get(this.taxiDriverList.getSelectedIndex());
-			JLabel userName = new JLabel(client.getNameUser());
-			userName.setBounds(100,120,200,40);
-			Style.setSubtitle(userName);
-			this.add(userName);
 			
-			JLabel name = new JLabel("Name: "+client.getName());
-			name.setBounds(110, 180, 500, 30);
-			Style.text(name);
-			this.add(name);
+			JLabel jlabelTaxiDriverName = new JLabel("Name");
+			jlabelTaxiDriverName.setBounds(100,120,200,40);
+			Style.setSubtitle(jlabelTaxiDriverName);
+			this.add(jlabelTaxiDriverName);
 			
-			JLabel age = new JLabel("Age: " + client.getClientAge());
-			age.setBounds(110, 210, 500, 30);
-			Style.text(age);
-			this.add(age);
+//			this.jtfTaxiDriverName = new JTextField(client.getName());
+			jtfTaxiDriverName.setBounds(100, 120, 500, 40);
+			Style.setTextField(jtfTaxiDriverName);
+			this.add(jtfTaxiDriverName);
+
+			JLabel jlabelTaxiDriverCalification = new JLabel("Calification");
+			jlabelTaxiDriverCalification.setBounds(100,180,200,40);
+			Style.setSubtitle(jlabelTaxiDriverCalification);
+			this.add(jlabelTaxiDriverCalification);
 			
-			JLabel id = new JLabel("ID: " + client.getClientID());
-			id.setBounds(110, 240, 500, 30);
-			Style.text(id);
-			this.add(id);
+//			this.jtfTaxiDriverCalification = new JTextField(client.getName());
+			jtfTaxiDriverCalification.setBounds(110, 180, 500, 40);
+			Style.setTextField(jtfTaxiDriverCalification);
+			this.add(jtfTaxiDriverCalification);
 			
-			JLabel gender = new JLabel("Gender: " + client.getClientGender());
-			gender.setBounds(110, 270, 500, 30);
-			Style.text(gender);
-			this.add(gender);
+			JLabel jlabelTaxiDriverCar = new JLabel("Car:");
+			jlabelTaxiDriverCar.setBounds(110, 240, 200, 40);
+			Style.text(jlabelTaxiDriverCar);
+			this.add(jlabelTaxiDriverCar);
+
+//			this.jtfTaxiDriverCar = new JTextField(client.getName());
+			jtfTaxiDriverCar.setBounds(110, 240, 500, 40);
+			Style.setTextField(jtfTaxiDriverCar);
+			this.add(jtfTaxiDriverCar);
+
+			JLabel jlabelTaxiDriverPaymentType = new JLabel("Payment Type");
+			jlabelTaxiDriverPaymentType.setBounds(110, 300, 200, 40);
+			Style.text(jlabelTaxiDriverPaymentType);
+			this.add(jlabelTaxiDriverPaymentType);
+
+//			this.jtfTaxiDriverPaymentType = new JTextField(client.getName());
+			jtfTaxiDriverPaymentType.setBounds(110, 300, 500, 40);
+			Style.setTextField(jtfTaxiDriverPaymentType);
+			this.add(jtfTaxiDriverPaymentType);
 			
-			JLabel nationality = new JLabel("Nacionality: " + client.getClientNationality());
-			nationality.setBounds(110, 300, 500, 30);
-			Style.text(nationality);
-			this.add(nationality);
-			
-			JLabel calification = new JLabel("Calification: " + client.getClientCalification());
-			calification.setBounds(110, 330, 500, 30);
-			Style.text(calification);
-			this.add(calification);
+			this.btnUpdate = new JButton("Update");
+			this.btnUpdate.setBounds(110, 360, 200, 40);
+			Style.setButton(btnUpdate);
+			this.btnUpdate.addActionListener(this);
+			this.add(btnUpdate);
 			
 			repaint();
 		}
+		if(e.getSource().equals(this.btnDelete)) {
+		
+			repaint();
+		}
+			
 	}//actionPerformed
 }//class end
