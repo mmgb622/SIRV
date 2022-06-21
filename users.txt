@@ -1,3 +1,4 @@
 Antonio;Anton08;1234
 Brayan Vargas F.;BrayanVF;12345;5.0;Costarricense;Male;19;301110111
 Mariana Garcia;mmgb622;1234
+Mariana Garcia;mariana;1234;5.0;Costarricense;Female;20;305370792
