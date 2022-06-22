@@ -4,27 +4,28 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Logic.DynamicGraph;
+import Logic.logicList.CircularDoubleLinkedList;
 
 public class SIRVSystem implements Serializable{
 	
 	private DynamicGraph graph;
-	private ArrayList taxiDrivers;
-	private ArrayList tripType;
+	private ArrayList <TaxiDriver> taxiDrivers;
+	private CircularDoubleLinkedList tripType;
 	
 
 	public SIRVSystem() {
 		this.graph= new DynamicGraph();
 		this.taxiDrivers= new ArrayList();
-		this.tripType= new ArrayList();
+		this.tripType= new CircularDoubleLinkedList();
 	}
 	
-	public SIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, ArrayList tripType) {
+	public SIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, CircularDoubleLinkedList tripType) {
 		this.graph= graph;
 		this.taxiDrivers= taxiDrivers;
 		this.tripType= tripType;
 	}
 	
-	public void setSIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, ArrayList tripType) {
+	public void setSIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, CircularDoubleLinkedList tripType) {
 		this.graph= graph;
 		this.taxiDrivers= taxiDrivers;
 		this.tripType= tripType;
@@ -38,19 +39,19 @@ public class SIRVSystem implements Serializable{
 		this.graph = graph;
 	}
 
-	public ArrayList getTaxiDrivers() {
+	public ArrayList<TaxiDriver> getTaxiDrivers() {
 		return taxiDrivers;
 	}
 
-	public void setTaxiDrivers(ArrayList taxiDrivers) {
+	public void setTaxiDrivers(ArrayList<TaxiDriver> taxiDrivers) {
 		this.taxiDrivers = taxiDrivers;
 	}
 
-	public ArrayList getTripType() {
+	public CircularDoubleLinkedList getTripType() {
 		return tripType;
 	}
 
-	public void setTripType(ArrayList tripType) {
+	public void setTripType(CircularDoubleLinkedList tripType) {
 		this.tripType = tripType;
 	}
 

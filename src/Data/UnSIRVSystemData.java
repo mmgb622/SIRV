@@ -10,62 +10,55 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import Domain.SIRVSystem;
+import Domain.TaxiDriver;
 import Logic.DynamicGraph;
+import Logic.logicList.CircularDoubleLinkedList;
 
 public class UnSIRVSystemData {
 
-	private SIRVSystem sSIRVSystem;
-
-	private String ruta;
+	private String route;
 
 	public UnSIRVSystemData() {
-		this.ruta = "unSIRVSystem.dat";
-		this.sSIRVSystem = new SIRVSystem();
+		this.route = "unSIRVSystem.dat";
 	} // constructor
 
 	public void writeSIRVSystem(SIRVSystem sSIRVSystem) throws FileNotFoundException, IOException {
 
-		File archivo = new File(this.ruta);
-		ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(archivo));
+		File archive = new File(this.route);
+		ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(archive));
 		output.writeUnshared(sSIRVSystem);
 		output.close();
 
-	} // registrarProducto
+	} // writeSIRVSystem
 
 	public SIRVSystem getSIRVSystem() throws FileNotFoundException, IOException, ClassNotFoundException {
-		File archivo = new File(this.ruta);
+		File archivo = new File(this.route);
 		SIRVSystem sSIRVSystem = null;
 		if (archivo.exists()) {
 			ObjectInputStream input = new ObjectInputStream(new FileInputStream(archivo));
 			Object aux = input.readObject();
 			sSIRVSystem = (SIRVSystem) aux;
 			input.close();
-		} // fin
+		} // if_end
 		return sSIRVSystem;
-	} // obtenerProducto
-	
-	public void setSIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, ArrayList tripType) throws FileNotFoundException, IOException, ClassNotFoundException {
-		this.sSIRVSystem.setSIRVSystem(graph, taxiDrivers, tripType);
-	} // obtenerProducto
+	} // getSIRVSystem
 
-	public void updateGraph(DynamicGraph graph) throws FileNotFoundException, IOException {
-		SIRVSystem sSIRVSystem = new SIRVSystem(graph, this.sSIRVSystem.getTaxiDrivers(),
-				this.sSIRVSystem.getTripType());
-		writeSIRVSystem(sSIRVSystem);
+	public void updateGraph(DynamicGraph graph) throws  ClassNotFoundException, FileNotFoundException, IOException {
+		SIRVSystem aux = this.getSIRVSystem();// read the system that is already in the file
+		 aux. setGraph(graph);// the specific element is modified
+		 this.writeSIRVSystem(aux);// system is overwritten
 	}// updateGraph
 
-	public void updateTaxi(ArrayList taxiDrivers) throws FileNotFoundException, IOException{
-		SIRVSystem sSIRVSystem = new SIRVSystem(this.sSIRVSystem.getGraph(), 
-												taxiDrivers,
-												this.sSIRVSystem.getTripType());
-		writeSIRVSystem(sSIRVSystem);
+	public void updateTaxi(ArrayList<TaxiDriver> taxiDrivers) throws FileNotFoundException, IOException, ClassNotFoundException{
+		SIRVSystem aux = this.getSIRVSystem();// read the system that is already in the file
+		 aux. setTaxiDrivers(taxiDrivers);// the specific element is modified
+		 this.writeSIRVSystem(aux);// system is overwritten
 	}// updateTaxi
 
-	public void updateTripType(ArrayList tripType) throws FileNotFoundException, IOException{
-		SIRVSystem sSIRVSystem = new SIRVSystem(this.sSIRVSystem.getGraph(), 
-												this.sSIRVSystem.getTaxiDrivers(),
-												tripType);
-		writeSIRVSystem(sSIRVSystem);
+	public void updateTripType(CircularDoubleLinkedList tripType) throws FileNotFoundException, IOException, ClassNotFoundException{
+		SIRVSystem aux = this.getSIRVSystem();// read the system that is already in the file
+		 aux. setTripType(tripType);// the specific element is modified
+		 this.writeSIRVSystem(aux);// system is overwritten
 	}// updateTripType
 
 } // fin clase
