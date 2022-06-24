@@ -1,14 +1,16 @@
 package GUI.administrator;
 
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -30,7 +32,7 @@ public class JPManageMap extends JPanel implements ActionListener{
 	public JPManageMap() {
 		this.setLayout(null);
 		this.setBackground(Style.colors[0]);
-		this.setSize(900, 580);
+		this.setSize(900, 550);
 		
 		initMap();
 		
@@ -39,12 +41,31 @@ public class JPManageMap extends JPanel implements ActionListener{
 
 	private void initMap() {
 		DynamicGraph mapGraph = new DynamicGraph();
+		try {
+			mapGraph.addVertex("Turrialba");
+			mapGraph.get(mapGraph.size()).updateVertexPosition(new Point(100, 200));
+			
+			mapGraph.addVertex("Aquiares");
+			mapGraph.get(mapGraph.size()).updateVertexPosition(new Point(200, 170));
+			
+			mapGraph.addVertex("El Coyol");
+			mapGraph.get(mapGraph.size()).updateVertexPosition(new Point(110, 100));
+
+			mapGraph.addVertex("Recope");
+			mapGraph.get(mapGraph.size()).updateVertexPosition(new Point(380, 200));
+			
+			mapGraph.addEdge("Turrialba", "Aquiares");
+			mapGraph.addEdge("Turrialba", "El Coyol");
+			mapGraph.addEdge("El Coyol", "Recope");
+			mapGraph.addEdge("Recope", "Aquiares");
+			mapGraph.addEdge("Recope", "Turrialba");
+			
+		} catch (GraphException e) {
+			e.printStackTrace();
+		}
 		
-		//Here comes the reading of graph from memory in files
-		//>>
-		
-		this.map = new JMap(mapGraph, 580, 540, true);
-		this.map.setLocation(10, 0);
+		this.map = new JMap(mapGraph, 550, 400, true);
+		this.map.setLocation(30, 60);
 		
 		this.map.getAddVertex().addActionListener(this);
 		this.map.getEditVertex().addActionListener(this);
@@ -55,35 +76,23 @@ public class JPManageMap extends JPanel implements ActionListener{
 	
 	private void init() {
 		this.title = new JLabel("Map management");
-		this.title.setBounds(600, 10, 300, 40);
+		this.title.setBounds(50, 10, 300, 40);
 		Style.setTitle(title);
 		this.add(title);
 		
 		this.update = new JButton("Update map");
-		this.update.setBounds(660, 490, 180, 40);
+		this.update.setBounds(30, 480, 180, 40);
 		this.update.addActionListener(this);
 		Style.setButton(update);
 		this.add(update);
 		
-		this.vertexInfo = new VertexInfo(this);
-		this.vertexInfo.setLocation(600,90);
-		this.vertexRoutes = new ManageRoutes(this.map.getGraph(), this);
-		this.vertexRoutes.setLocation(600, 60);
-		reset();
+		this.vertexInfo = null;
+		
 	}//init
 
-	public void reset() {
-		this.remove(this.vertexRoutes);
-		this.vertexRoutes.setVisible(false);
-		this.remove(vertexInfo);
-		this.vertexInfo.setVisible(false);
-	
-	}
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(this.update)) {
-			//waiting for the files saving, then here it updates the graph
 			
 		}else if(e.getSource().equals(this.map.getAddVertex())){
 			Point location = this.map.getMousePosition();
@@ -92,16 +101,6 @@ public class JPManageMap extends JPanel implements ActionListener{
 				name +=  " "+ (this.map.getGraph().size()+1);
 				this.map.getGraph().addVertex(name);
 				this.map.getGraph().getByContent(name).updateVertexPosition(location);
-				this.map.setSelectedVertex(this.map.getGraph().get(this.map.getGraph().size()));
-				
-				this.reset();
-				
-				this.vertexInfo.updateInfo(this.map.getSelectedVertex());
-				
-				//it will show a panel to edit the added vertex
-				this.add(this.vertexInfo);
-				this.vertexInfo.setVisible(true);
-				
 			} catch (GraphException e1) {
 				e1.printStackTrace();
 			}
@@ -114,22 +113,29 @@ public class JPManageMap extends JPanel implements ActionListener{
 				e1.printStackTrace();
 			}
 			this.map.setSelectedVertex(null);
-			this.reset();
 			
 		} else if(e.getSource().equals(this.map.getEditVertex())) {
-			this.reset();
-			
-			this.vertexInfo.updateInfo(this.map.getSelectedVertex());
-			
-			this.add(vertexInfo);
-			this.vertexInfo.setVisible(true);
-			
+			if(vertexRoutes!=null)
+				this.remove(vertexRoutes);
+			if(vertexInfo==null) {
+				this.vertexInfo = new VertexInfo(this.map.getSelectedVertex(), this);
+				this.vertexInfo.setLocation(600,90);
+				this.vertexInfo.setVisible(true);
+			}else {
+				this.vertexInfo.updateInfo(this.map.getSelectedVertex());
+			}
+			this.add(vertexInfo);		
 		} else if(e.getSource().equals(this.map.getManageEdges())) {
-			reset();
-			this.vertexRoutes.updateInfo(this.map.getSelectedVertex());
-			
+			if(this.vertexInfo!=null)
+				 this.remove(vertexInfo);
+			if(vertexRoutes==null) {
+				this.vertexRoutes = new ManageRoutes(this.map.getSelectedVertex(), this.map.getGraph(), this);
+				this.vertexRoutes.setLocation(600, 60);
+				this.vertexRoutes.setVisible(true);
+			}else {
+				this.vertexRoutes.updateInfo(this.map.getSelectedVertex());
+			}
 			this.add(vertexRoutes);
-			this.vertexRoutes.setVisible(true);
 		}
 		repaint();
 	}//actionPerformed
@@ -142,34 +148,32 @@ public class JPManageMap extends JPanel implements ActionListener{
 		private Vertex vertex;
 		private Thread updater;
 		
-		public VertexInfo(ActionListener listener) {
+		public VertexInfo(Vertex v, ActionListener listener) {
 			this.setSize(270,400);
 			this.setLayout(null);
 			this.setBackground(null);
-			
-			initElements(listener);
-			
-			this.updater = new Thread(this);
-			this.updater.start();
+			this.vertex = v;
+			initComponents(v, listener);
 		}
 		
-		private void initElements(ActionListener listener) {
+		private void initComponents(Vertex v, ActionListener listener) {
 			this.name = new JLabel("Name: ");
 			this.name.setBounds(30,50,100,30);
 			Style.text(name);
 			this.add(name);
 			
-			this.vertexName = new JTextField(); 
+			this.vertexName = new JTextField((String) v.element); 
 			this.vertexName.setBounds(130, 45, 100, 40);
 			Style.setTextField(vertexName);
 			this.add(vertexName);
 			
-			this.x = new JLabel("");
+			this.x = new JLabel();
+			this.x.setText("X position: "+v.x);
 			this.x.setBounds(30, 90, 150, 30);
 			Style.text(x);
 			this.add(x);
 			
-			this.y = new JLabel();
+			this.y = new JLabel("Y position: "+v.y);
 			this.y.setBounds(30, 130, 150, 30);
 			Style.text(y);
 			this.add(y);
@@ -181,22 +185,20 @@ public class JPManageMap extends JPanel implements ActionListener{
 			this.changeName.addActionListener(listener);
 			this.add(changeName);
 			
-		}
+			this.updater = new Thread(this);
+			this.updater.start();
+		}//initComponents (VertexInfo)
 		
 		public void updateInfo(Vertex v) {
 			this.vertex = v;
 			this.vertexName.setText((String) vertex.element);
-			this.x.setText("X position: "+ this.vertex.x); 
-			this.y.setText("Y position: "+ this.vertex.y);
 		}
 
 		@Override
 		public void run() {
 			while(true) {
-				try {
-					this.x.setText("X position: "+ this.vertex.x); 
-					this.y.setText("Y position: "+ this.vertex.y);
-				}catch (Exception e) {}
+				this.x.setText("X position: "+ this.vertex.x); 
+				this.y.setText("Y position: "+ this.vertex.y);
 			}
 		}
 
@@ -219,18 +221,19 @@ public class JPManageMap extends JPanel implements ActionListener{
 		private JButton addEdge, updateEdge, deleteEdge;
 		
 		
-		public ManageRoutes(DynamicGraph map, ActionListener listener) {
+		public ManageRoutes(Vertex v, DynamicGraph map, ActionListener listener) {
 			this.setSize(280,400);
 			this.setLayout(null);
 			this.setBackground(null);
+			this.vertex = v;
 			this.map = map;
 			initComponents(listener);
-			//updateRoutes();
+			updateRoutes();
 			repaint();
 		}
 		
 		private void initComponents(ActionListener listener) {
-			this.title = new JLabel();
+			this.title = new JLabel(""+this.vertex.element);
 			this.title.setBounds(0, 0, 280, 40);
 			Style.setSubtitle(title);
 			this.title.setFont(title.getFont().deriveFont(16));
@@ -336,43 +339,32 @@ public class JPManageMap extends JPanel implements ActionListener{
 				this.changeWeight.setText(associatedWeight);
 				
 			} else if(e.getSource().equals(this.updateEdge)) {
-				if(this.openRoutes.getItemCount()==0)
-					JOptionPane.showMessageDialog(this, "There's no posible location to update");
-				else {
-					int selectedIndex = openRoutes.getSelectedIndex()+1;
-					int weight = Integer.parseInt(this.changeWeight.getText());
-					this.vertex.weights.set(selectedIndex, weight);
-				}
+				int selectedIndex = openRoutes.getSelectedIndex()+1;
+				int weight = Integer.parseInt(this.changeWeight.getText());
+				this.vertex.weights.set(selectedIndex, weight);
 				
 			}else if(e.getSource().equals(this.addEdge)) {
-				if(this.closedRoutes.getItemCount()==0)
-					JOptionPane.showMessageDialog(this, "There's no posible location to create the route");
+				if(this.addWeight.getText().isBlank())
+					try {
+						this.map.addEdge(this.vertex.element, this.closedRoutes.getSelectedItem());
+					} catch (GraphException e1) {
+						e1.printStackTrace();
+					}
 				else {
-					if(this.addWeight.getText().isBlank())
-						try {
-							this.map.addEdge(this.vertex.element, this.closedRoutes.getSelectedItem());
-						} catch (GraphException e1) {
-							e1.printStackTrace();
-						}
-					else {
-						int weight = Integer.parseInt(this.addWeight.getText());
-						try {
-							this.map.addEdge(this.vertex.element, this.closedRoutes.getSelectedItem(), weight);
-						} catch (GraphException e1) {
-							e1.printStackTrace();
-						}
-					}//if else whether or not is a specific weight	
-				}
+					int weight = Integer.parseInt(this.addWeight.getText());
+					try {
+						this.map.addEdge(this.vertex.element, this.closedRoutes.getSelectedItem(), weight);
+					} catch (GraphException e1) {
+						e1.printStackTrace();
+					}
+				}//if else whether or not is a specific weight	
+
 				updateRoutes();
 			} else if(e.getSource().equals(this.deleteEdge)) {
-				if(this.openRoutes.getItemCount()==0)
-					JOptionPane.showMessageDialog(this, "There's no posible route to delete");
-				else {
-					Vertex associated = this.map.getByContent(this.openRoutes.getSelectedItem());
-					this.map.deleteEdge(this.vertex, associated);
-	
-					updateRoutes();
-				}
+				Vertex associated = this.map.getByContent(this.openRoutes.getSelectedItem());
+				this.map.deleteEdge(this.vertex, associated);
+
+				updateRoutes();
 			}
 		}//actionPerformed
 		

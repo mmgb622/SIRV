@@ -13,17 +13,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Domain.Admin;
-import GUI.JUserMenu;
 import GUI.Style;
 
 public class JPAdministratorPanel extends JPanel implements MouseListener{
 
 	private BufferedImage img;
 	private JLabel adminName, manageTaxiDrivers, manageMap, manageRideTypes, seeUsers;
-	private JUserMenu menu;
 	
 	private JPViewClients jpClients;
 	private JPManageMap jpMap;
+	private JPManageRideType jpRideType;
 	
 	public JPAdministratorPanel(Admin user) {
 		this.setPreferredSize(new Dimension(900, 750));
@@ -38,15 +37,11 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.menu = new JUserMenu(user, 700, 0);
-		this.menu.setVisible(false);
-		this.add(menu);
 		
 		this.adminName = new JLabel(user.getName());
 		this.adminName.setBounds(550, 0, 300, 150);
 		Style.setSubtitle(adminName);
 		this.adminName.setHorizontalAlignment(JLabel.RIGHT);
-		this.adminName.addMouseListener(this);
 		this.add(adminName);
 		
 		this.manageTaxiDrivers = new JLabel("Taxi Drivers");
@@ -95,6 +90,8 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			this.remove(jpClients);
 		if(this.jpMap != null)
 			this.remove(jpMap);
+		if(this.jpRideType != null)
+			this.remove(jpRideType);
 	}
 	
 	@Override
@@ -115,20 +112,26 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			this.jpMap.setVisible(true);
 			this.add(jpMap);
 			repaint();
+		}else if(e.getSource().equals(this.manageRideTypes)) {
+			this.reset();
+			this.jpRideType = new JPManageRideType();
+			this.jpRideType.setLocation(0,200);
+			this.jpRideType.setVisible(true);
+			this.add(jpRideType);
+			repaint();
 		}
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(e.getSource().equals(this.adminName)) {
-			this.adminName.setVisible(false);
-			this.menu.setVisible(true);
-		}
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -161,22 +164,4 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			Style.text(seeUsers);
 		}
 	}
-
-	public JUserMenu getMenu() {
-		return menu;
-	}
-
-	public void setMenu(JUserMenu menu) {
-		this.menu = menu;
-	}
-
-	public JLabel getAdminName() {
-		return adminName;
-	}
-
-	public void setAdminName(JLabel adminName) {
-		this.adminName = adminName;
-	}
-
-	
 }
