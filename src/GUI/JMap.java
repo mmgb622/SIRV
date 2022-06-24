@@ -19,8 +19,8 @@ public class JMap extends JPanel implements MouseListener,MouseMotionListener{
 	private boolean movingVertex; 
 	private Vertex selectedVertex;
 	private boolean editable;
-	private JPopupMenu optionMenu, manageMainPoints;
-	private JMenuItem addVertex, editVertex, deleteVertex, manageEdges, setOrigin, setDestiny;
+	private JPopupMenu optionMenu;
+	private JMenuItem addVertex, editVertex, deleteVertex, manageEdges;
 	
 	public JMap(DynamicGraph grafo, int width, int height, boolean editable) {
 		this.graph = grafo;
@@ -45,14 +45,6 @@ public class JMap extends JPanel implements MouseListener,MouseMotionListener{
 		this.deleteVertex = new JMenuItem("Delete location");
 		
 		this.manageEdges = new JMenuItem("Manage routes");
-		
-		this.manageMainPoints = new JPopupMenu();
-		this.setOrigin = new JMenuItem("Set as Origin");
-		this.manageMainPoints.add(setOrigin);
-		
-		this.setDestiny = new JMenuItem("Set as Destiny");
-		this.manageMainPoints.add(setDestiny);
-		
 	}
 	
 	private void resetMenu() {
@@ -60,7 +52,6 @@ public class JMap extends JPanel implements MouseListener,MouseMotionListener{
 		this.optionMenu.add(editVertex);
 		this.optionMenu.add(deleteVertex);
 		this.optionMenu.add(manageEdges);
-		//setting admin menu
 	}
 
 	public void paint(Graphics g) {
@@ -80,14 +71,11 @@ public class JMap extends JPanel implements MouseListener,MouseMotionListener{
 
 
 	public void mouseDragged(MouseEvent e) {
-		if(editable) {
+		if(editable)
 			if(movingVertex) {
 				selectedVertex.updateVertexPosition(e.getPoint());
 				repaint();
 			}
-		}else {
-			this.manageMainPoints.show(this, e.getPoint().x, e.getPoint().y);
-		}
 	}
 	
 	@Override
@@ -130,11 +118,8 @@ public class JMap extends JPanel implements MouseListener,MouseMotionListener{
 				this.optionMenu.remove(manageEdges);
 			}
 			this.optionMenu.show(this, e.getX(), e.getY());	
-		}else if(e.getButton() == MouseEvent.BUTTON3){
-			this.manageMainPoints.show(this, e.getPoint().x, e.getPoint().y);
 		}
-
-	}//mouseReleased
+	}
 
 
 	@Override

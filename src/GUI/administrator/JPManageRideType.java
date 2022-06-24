@@ -46,8 +46,7 @@ public class JPManageRideType extends JPanel implements ActionListener{
 	
 	private void refreshCombo() {
 		this.rideTypes.removeAllItems();
-		for (int i = 0; i < rides.getSize(); i++) {
-			System.out.println(i);
+		for (int i = 1; i <= rides.getSize(); i++) {
 			this.rideTypes.addItem((String)rides.get(i));
 		}
 		this.add(rideTypes);
@@ -68,9 +67,7 @@ public class JPManageRideType extends JPanel implements ActionListener{
 		costs.add(123);
 		rides.addEnd("UberVIP");
 		costs.add(111);
-		rides.addEnd("nulo");
-		costs.add(200);
-		System.out.println(rides.getSize());
+		
 		JLabel title = new JLabel("Manage Ride Types");
 		title.setBounds(20, 30, 300, 39);
 		Style.setTitle(title);
@@ -83,28 +80,25 @@ public class JPManageRideType extends JPanel implements ActionListener{
 		this.rideTypes.setFocusable(false);
 
 		
-		for (int i = 0; i < rides.getSize(); i++) {
-			
-			this.rideTypes.addItem((String)rides.get(i));
-		}
+		refreshCombo();
 		this.add(rideTypes);
 		
 		this.add = new JButton("Add");
-		this.add.setBounds(25, 150, 89, 23);
+		this.add.setBounds(25, 150, 150, 30);
 		Style.setButton(add);
 		this.add.addActionListener(this);
 		this.add(add);
 		
 
 		this.edit = new JButton("Edit");
-		this.edit.setBounds(25, 190, 89, 23);
+		this.edit.setBounds(25, 190, 150, 30);
 		Style.setButton(edit);
 		this.edit.addActionListener(this);
 		this.edit.setEnabled(false);
 		this.add(edit);
 		
 		this.delete = new JButton("Delete");
-		this.delete.setBounds(25, 230,89, 23);
+		this.delete.setBounds(25, 230, 150, 30);
 		Style.setButton(delete);
 		this.delete.addActionListener(this);
 		this.add(delete);
@@ -116,6 +110,7 @@ public class JPManageRideType extends JPanel implements ActionListener{
 		
 		this.name = new JTextField();
 		this.name.setBounds(600, 140, 200, 22);
+		this.name.addActionListener(this);
 		add(this.name);
 		
 		JLabel lCost = new JLabel("Cost");
@@ -125,30 +120,13 @@ public class JPManageRideType extends JPanel implements ActionListener{
 		
 		this.cost = new JTextField();
 		this.cost.setBounds(600, 210, 200, 22);
+		this.cost.addActionListener(this);
 		add(this.cost);
 		
 	
 		rideTypes.addActionListener(this);
 
-		name.getDocument().addDocumentListener(new DocumentListener() {
-		    @Override
-		    public void insertUpdate(DocumentEvent e) {
-		    	if(!name.getText().equals( rideTypes.getSelectedItem().toString())) {
-		    		edit.setEnabled(true);
-		    	}
-		 
-		    }
-
-		    @Override
-		    public void removeUpdate(DocumentEvent e) {
-		      //  edit.setEnabled(true);
-		    }
-
-		    @Override
-		    public void changedUpdate(DocumentEvent e) {
-		       // edit.setEnabled(true);
-		    }
-		});
+		
 		
 	}
 
@@ -184,6 +162,11 @@ public class JPManageRideType extends JPanel implements ActionListener{
 			refreshCombo();
 			repaint();
 		}
-		
+		if(e.getSource().equals(this.name)) {
+			//poner aquí la validación de si un textfield cambia, activar el botón edit
+		}
+		if(e.getSource().equals(this.cost)) {
+			//poner aquí la validación de si un textfield cambia, activar el botón edit
+		}
 	}//actionPerformed
 }//class end
