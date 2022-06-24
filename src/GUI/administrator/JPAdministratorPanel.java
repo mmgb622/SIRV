@@ -22,6 +22,7 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 	
 	private JPViewClients jpClients;
 	private JPManageMap jpMap;
+	private JPManageRideType gProyecto;
 	
 	public JPAdministratorPanel(Admin user) {
 		this.setPreferredSize(new Dimension(900, 750));
@@ -89,6 +90,8 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			this.remove(jpClients);
 		if(this.jpMap != null)
 			this.remove(jpMap);
+		if(this.gProyecto != null)
+			this.remove(gProyecto);
 	}
 	
 	@Override
@@ -108,6 +111,13 @@ public class JPAdministratorPanel extends JPanel implements MouseListener{
 			this.jpMap.setLocation(0, 200);
 			this.jpMap.setVisible(true);
 			this.add(jpMap);
+			repaint();
+		}else if(e.getSource().equals(this.manageRideTypes)) {
+			this.reset();
+			this.gProyecto = new JPManageRideType();
+			this.gProyecto.setLocation(0,200);
+			this.gProyecto.setVisible(true);
+			this.add(gProyecto);
 			repaint();
 		}
 	}
