@@ -1,8 +1,9 @@
 package Logic.logicList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DoubleLinkedList implements Lista{
+public class DoubleLinkedList implements Lista, Serializable{
 
 	public Node start;
 	
