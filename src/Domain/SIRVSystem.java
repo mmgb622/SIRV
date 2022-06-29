@@ -24,12 +24,6 @@ public class SIRVSystem implements Serializable{
 		this.taxiDrivers= taxiDrivers;
 		this.rideType= rideType;
 	}
-	
-	public void setSIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, CircularDoubleLinkedList rideType) {
-		this.graph= graph;
-		this.taxiDrivers= taxiDrivers;
-		this.rideType= rideType;
-	}
 
 	public DynamicGraph getGraph() {
 		return graph;
@@ -55,4 +49,4 @@ public class SIRVSystem implements Serializable{
 		this.rideType = rideType;
 	}
 
-}
+}// end of class

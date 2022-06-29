@@ -59,6 +59,6 @@ public class UnSIRVSystemData {
 		SIRVSystem aux = this.getSIRVSystem();// read the system that is already in the file
 		 aux. setRideType(rideType);// the specific element is modified
 		 this.writeSIRVSystem(aux);// system is overwritten
-	}// updateTripType
+	}// updateRideType
 
-} // fin clase
+} // end of clase

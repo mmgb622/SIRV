@@ -19,7 +19,6 @@ public class TaxiDriver implements Serializable{
 		this.taxiDriverPaymentType = taxiDriverPaymentType;
 	}//constructor
 
-
 	//getters and setters
 	
 	public String getTaxiDriverName() {
