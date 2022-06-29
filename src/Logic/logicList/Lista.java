@@ -1,8 +1,9 @@
 package Logic.logicList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public interface Lista {
+public interface Lista extends Serializable {
 	
 	//add a new node at the beginning of the list
 	public void addHead(Object element);

@@ -1,8 +1,9 @@
 package Logic.logicList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CircularDoubleLinkedList implements Lista{
+public class CircularDoubleLinkedList implements Lista, Serializable{
 
 	//atributes
 	private Node start;
