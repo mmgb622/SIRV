@@ -55,9 +55,9 @@ public class UnSIRVSystemData {
 		 this.writeSIRVSystem(aux);// system is overwritten
 	}// updateTaxi
 
-	public void updateTripType(CircularDoubleLinkedList tripType) throws FileNotFoundException, IOException, ClassNotFoundException{
+	public void updateRideType(CircularDoubleLinkedList rideType) throws FileNotFoundException, IOException, ClassNotFoundException{
 		SIRVSystem aux = this.getSIRVSystem();// read the system that is already in the file
-		 aux. setTripType(tripType);// the specific element is modified
+		 aux. setRideType(rideType);// the specific element is modified
 		 this.writeSIRVSystem(aux);// system is overwritten
 	}// updateTripType
 

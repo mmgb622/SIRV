@@ -38,10 +38,10 @@ public class UnSIRVSystemBusiness {
 			this.unSIRVSystemData.updateTaxi(taxiDrivers);
 	}//updateTaxi
 
-	public void updateTripType(CircularDoubleLinkedList tripType)
+	public void updateTripType(CircularDoubleLinkedList rideType)
 			throws FileNotFoundException, IOException, ClassNotFoundException {
-		if (tripType != null)
-			this.unSIRVSystemData.updateTripType(tripType);
+		if (rideType != null)
+			this.unSIRVSystemData.updateRideType(rideType);
 	}//updateTripType
 
 } // fin clase
