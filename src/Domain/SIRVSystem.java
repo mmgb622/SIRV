@@ -8,27 +8,21 @@ import Logic.logicList.CircularDoubleLinkedList;
 
 public class SIRVSystem implements Serializable{
 	
-	private DynamicGraph graph;
+	private DynamicGraph graph ;
 	private ArrayList <TaxiDriver> taxiDrivers;
-	private CircularDoubleLinkedList tripType;
+	private CircularDoubleLinkedList rideType;
 	
 
 	public SIRVSystem() {
 		this.graph= new DynamicGraph();
 		this.taxiDrivers= new ArrayList();
-		this.tripType= new CircularDoubleLinkedList();
+		this.rideType= new CircularDoubleLinkedList();
 	}
 	
-	public SIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, CircularDoubleLinkedList tripType) {
+	public SIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, CircularDoubleLinkedList rideType) {
 		this.graph= graph;
 		this.taxiDrivers= taxiDrivers;
-		this.tripType= tripType;
-	}
-	
-	public void setSIRVSystem(DynamicGraph graph, ArrayList taxiDrivers, CircularDoubleLinkedList tripType) {
-		this.graph= graph;
-		this.taxiDrivers= taxiDrivers;
-		this.tripType= tripType;
+		this.rideType= rideType;
 	}
 
 	public DynamicGraph getGraph() {
@@ -47,12 +41,12 @@ public class SIRVSystem implements Serializable{
 		this.taxiDrivers = taxiDrivers;
 	}
 
-	public CircularDoubleLinkedList getTripType() {
-		return tripType;
+	public CircularDoubleLinkedList getRideType() {
+		return rideType;
 	}
 
-	public void setTripType(CircularDoubleLinkedList tripType) {
-		this.tripType = tripType;
+	public void setRideType(CircularDoubleLinkedList rideType) {
+		this.rideType = rideType;
 	}
 
-}
+}// end of class
