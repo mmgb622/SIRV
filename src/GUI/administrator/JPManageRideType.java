@@ -17,13 +17,14 @@ import javax.swing.event.DocumentListener;
 
 import Business.UserBusiness;
 import Domain.Client;
+import Domain.RideType;
 import GUI.Style;
 import Logic.logicList.CircularDoubleLinkedList;
 
 public class JPManageRideType extends JPanel implements ActionListener{
 
 	private JComboBox<String> rideTypes;
-	private ArrayList<Integer> costs =  new ArrayList<Integer>();
+	private ArrayList<RideType> costs =  new ArrayList<RideType>();
 	
 	private JButton add;
 	private JButton delete;
@@ -32,7 +33,7 @@ public class JPManageRideType extends JPanel implements ActionListener{
 	private JTextField name;
 	private JTextField cost;
 	
-	private CircularDoubleLinkedList rides = new CircularDoubleLinkedList();
+	//private CircularDoubleLinkedList rides = new CircularDoubleLinkedList();
 	
 
 
@@ -46,8 +47,9 @@ public class JPManageRideType extends JPanel implements ActionListener{
 	
 	private void refreshCombo() {
 		this.rideTypes.removeAllItems();
-		for (int i = 1; i <= rides.getSize(); i++) {
-			this.rideTypes.addItem((String)rides.get(i));
+		
+		for (int i = 0; i < costs.size(); i++) {
+			this.rideTypes.addItem(costs.get(i).getName());
 		}
 		this.add(rideTypes);
 		
@@ -55,18 +57,14 @@ public class JPManageRideType extends JPanel implements ActionListener{
 	private void init() {
 
 
-		rides.addEnd("UberX");
-		costs.add(300);
-		rides.addEnd("UberPlanet");
-		costs.add(400);
-		rides.addEnd("Flash");
-		costs.add(500);
-		rides.addEnd("UberXL");
-		costs.add(250);
-		rides.addEnd("Ubercomfort");
-		costs.add(123);
-		rides.addEnd("UberVIP");
-		costs.add(111);
+		//rides.addEnd("UberX");
+		costs.add(new RideType("UberX",300));
+		costs.add(new RideType("Flash",300));
+		costs.add(new RideType("UberXL",300));
+		costs.add(new RideType("Ubercomfort",300));
+		costs.add(new RideType("UberVIP",300));
+		
+		
 		
 		JLabel title = new JLabel("Manage Ride Types");
 		title.setBounds(20, 30, 300, 39);
@@ -107,26 +105,43 @@ public class JPManageRideType extends JPanel implements ActionListener{
 		lname.setBounds(600, 110, 200, 22);
 		Style.setTitle(lname);
 		this.add(lname);
-		
 		this.name = new JTextField();
 		this.name.setBounds(600, 140, 200, 22);
 		this.name.addActionListener(this);
 		add(this.name);
 		
 		JLabel lCost = new JLabel("Cost");
-		lCost.setBounds(600, 180, 200, 22);
+		lCost.setBounds(600, 170, 200, 50);
 		Style.setTitle(lCost);
 		this.add(lCost);
 		
 		this.cost = new JTextField();
-		this.cost.setBounds(600, 210, 200, 22);
+		this.cost.setBounds(600, 220, 200, 22);
 		this.cost.addActionListener(this);
 		add(this.cost);
 		
 	
 		rideTypes.addActionListener(this);
 
-		
+		name.getDocument().addDocumentListener(new DocumentListener() {
+		    @Override
+		    public void insertUpdate(DocumentEvent e) {
+		    	if(!name.getText().equals( rideTypes.getSelectedItem().toString())) {
+		    		edit.setEnabled(true);
+		    	}
+		 
+		    }
+
+		    @Override
+		    public void removeUpdate(DocumentEvent e) {
+		      //  edit.setEnabled(true);
+		    }
+
+		    @Override
+		    public void changedUpdate(DocumentEvent e) {
+		       // edit.setEnabled(true);
+		    }
+		});
 		
 	}
 
@@ -143,30 +158,39 @@ public class JPManageRideType extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(this.add)) {
 			System.out.println(name.getText());
-			rides.addHead(name.getText());
+			costs.add(new RideType(name.getText(),Integer.parseInt(cost.getText())));
 			name.setText("");
+			cost.setText("");
 			refreshCombo();
 			repaint();
 		}
 		if(e.getSource().equals(this.rideTypes)) {
 			if(rideTypes.getSelectedItem()!=null) {
 			name.setText(rideTypes.getSelectedItem().toString());
-			cost.setText(costs.get(rideTypes.getSelectedIndex()-1).toString());
+			System.out.println(rideTypes.getSelectedItem());
+			cost.setText(String.valueOf(costs.get(rideTypes.getSelectedIndex()).getDistanceCost()));
 			}
 		}
 		if(e.getSource().equals(this.delete)) {
 			System.out.println("se borro");
-			rides.delete(rideTypes.getSelectedIndex());
+			costs.remove(rideTypes.getSelectedIndex());
 			name.setText("");
 			cost.setText("");
 			refreshCombo();
 			repaint();
 		}
 		if(e.getSource().equals(this.name)) {
-			//poner aquí la validación de si un textfield cambia, activar el botón edit
+			System.out.println("holii");
+			this.edit.setEnabled(true);
 		}
-		if(e.getSource().equals(this.cost)) {
-			//poner aquí la validación de si un textfield cambia, activar el botón edit
+		if(e.getSource().equals(this.edit)) {
+			costs.get(rideTypes.getSelectedIndex()).setName(name.getText());
+			costs.get(rideTypes.getSelectedIndex()).setDistanceCost(Integer.parseInt(cost.getText()));
+			refreshCombo();
+			repaint();
+			name.setText("");
+			cost.setText("");
+			edit.setEnabled(false);
 		}
 	}//actionPerformed
 }//class end
