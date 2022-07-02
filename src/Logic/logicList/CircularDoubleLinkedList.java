@@ -1,9 +1,10 @@
 package Logic.logicList;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CircularDoubleLinkedList implements Lista, Serializable{
+import Domain.RideType;
+
+public class CircularDoubleLinkedList implements Lista{
 
 	//atributes
 	private Node start;
@@ -192,7 +193,7 @@ public class CircularDoubleLinkedList implements Lista, Serializable{
 			Node aux = this.start;
 			do {
 				if(count==position) {
-					return aux.element;
+					return  aux.element;
 				}else {
 					aux = aux.next;
 					count++;

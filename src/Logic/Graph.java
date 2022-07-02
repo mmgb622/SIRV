@@ -1,8 +1,6 @@
 package Logic;
 
-import java.io.Serializable;
-
-public interface Graph extends Serializable {
+public interface Graph {
 
 	//return the graph to its basic state, empty
 	public void reset();

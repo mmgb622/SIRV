@@ -1,8 +1,6 @@
 package Domain;
 
-import java.io.Serializable;
-
-public class TaxiDriver implements Serializable{
+public class TaxiDriver {
 
 	//atributes
 	private String taxiDriverName;
@@ -18,6 +16,7 @@ public class TaxiDriver implements Serializable{
 		this.taxiDriverCar = taxiDriverCar;
 		this.taxiDriverPaymentType = taxiDriverPaymentType;
 	}//constructor
+
 
 	//getters and setters
 	

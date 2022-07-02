@@ -1,11 +1,10 @@
 package Logic;
 
 import java.awt.Graphics;
-import java.io.Serializable;
 
 import Logic.logicList.DoubleLinkedList;
 
-public class DynamicGraph implements Graph, Serializable{
+public class DynamicGraph implements Graph{
 
 	private DoubleLinkedList vertex;
 	
