@@ -1,8 +1,7 @@
 package Logic.logicList;
 
-import java.io.Serializable;
 
-public class Node implements Serializable{
+public class Node {
 
 	public Object element;
 	public Node next;

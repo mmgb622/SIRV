@@ -8,7 +8,7 @@ private int distanceCost;
 public RideType(String name, int distanceCost) {
 	super();
 	this.name = name;
-	distanceCost = distanceCost;
+	this.distanceCost = distanceCost;
 }
 public String getName() {
 	return name;
